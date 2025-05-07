@@ -25,6 +25,8 @@ THE SOFTWARE.*/
 #include <iostream>
 #include <cmath>
 
+#include "Table.h"
+
 #define PRINCIPAL 0
 #define RATE 1
 #define PAYMENT 2
@@ -59,6 +61,9 @@ int main(int argc, char** argv){
         user_data[i-1] = atof(argv[i]);
     }
     //END ARGUMENT VALIDATION
+
+    //Test
+    Table table;
 
     //BEGIN PROGRAM
     adj_rate = user_data[RATE] / 1200.0;
