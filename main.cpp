@@ -25,25 +25,26 @@ THE SOFTWARE.*/
 #include <iostream>
 #include <cmath>
 
-#include "Table.h"
+#include "Debt.h"
 
-#define PRINCIPAL 0
-#define RATE 1
-#define PAYMENT 2
+#define BALANCE 1
+#define RATE 2
+#define PAYMENT 3
 
 void usage(const char* name){
     std::cerr << "usage: " << name << " principal_amount interest_rate monthly_payment\n";
     std::cerr << "All arguments must be numerical and above 0.\n";
 }
 
-float nper(double principal, float rate, double payment){
+float nper(float principal, float rate, float payment){
     //n = log(M / (M - P * r)) / log(1 + r)
     return log(payment / (payment - (principal * rate))) / log(1 + rate);
 }
 
 int main(int argc, char** argv){
     //BEGIN ARGUMENT VALIDATION
-    double user_data[3], adj_rate;
+    float adj_rate;
+    Debt debt;
 
     if(argc < 4 ){
         std::cerr << "Not enough arguments.\n";
@@ -58,18 +59,19 @@ int main(int argc, char** argv){
             usage(argv[0]);
             return EXIT_FAILURE;
         }
-        user_data[i-1] = atof(argv[i]);
+        debt.balance = atof(argv[BALANCE]);
+        debt.rate = atof(argv[RATE]);
+        debt.min_payment = atof(argv[PAYMENT]);
+
+
     }
     //END ARGUMENT VALIDATION
 
-    //Test
-    Table table;
-
     //BEGIN PROGRAM
-    adj_rate = user_data[RATE] / 1200.0;
-    float result = nper(user_data[PRINCIPAL], adj_rate, user_data[PAYMENT]);
-    std::cout << "It will take " << std::ceil(result) << " months to pay off $" << user_data[PRINCIPAL] << " in debt with a payment of "
-              << user_data[PAYMENT] << " each month at a rate of " << user_data[RATE] << "%." << std::endl;
+    adj_rate = debt.rate / 1200.0;
+    float result = nper(debt.balance, debt.rate/1200, debt.min_payment);
+    std::cout << "It will take " << std::ceil(result) << " months to pay off $" << debt.balance << " in debt with a payment of "
+              << debt.min_payment << " each month at a rate of " << debt.rate << "%." << std::endl;
 
     return 0;
 }
