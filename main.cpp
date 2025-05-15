@@ -25,7 +25,8 @@ THE SOFTWARE.*/
 #include <iostream>
 #include <cmath>
 
-#include "Debt.h"
+#include "debt.h"
+#include "table.h"
 
 #define BALANCE 1
 #define RATE 2
@@ -72,6 +73,9 @@ int main(int argc, char** argv){
     float result = nper(debt.balance, debt.rate/1200, debt.min_payment);
     std::cout << "It will take " << std::ceil(result) << " months to pay off $" << debt.balance << " in debt with a payment of "
               << debt.min_payment << " each month at a rate of " << debt.rate << "%." << std::endl;
+
+    Table table(&debt);
+    table.Print(std::ceil(result));
 
     return 0;
 }
